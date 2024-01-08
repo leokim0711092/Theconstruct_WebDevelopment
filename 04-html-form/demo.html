@@ -1,0 +1,45 @@
+<html>
+    <body>
+    <form method="GET" action="#">
+        <div>
+            <label for="name">Name</label>
+            <br />
+            <input type="text" name="name" id="name" />
+        </div>
+        <div>
+            <label for="name">Age</label>
+            <br />
+            <input type="number" name="age" id="age" min="18" max="99" step="1" />
+        </div>
+        <div>
+            <label for="color">Favorite color</label>
+            <br />
+            <select name="color" id="color">
+                <option value="1">Blue</option>
+                <option value="2">Green</option>
+                <option value="3">Red</option>
+            </select>
+        </div>
+        <div>
+            <label for="about">Favorite weekend day</label>
+            <br />
+            <div>
+                <input id="weekendday1" type="radio" name="weekendday" value="1" />
+                <label for="weekendday1">Saturday</label>
+            </div>
+            <div>
+                <input id="weekendday2" type="radio" name="weekendday" value="2" />
+                <label for="weekendday2">Sunday</label>
+            </div>
+        </div>
+        <div>
+            <label for="about">Tell us more about you</label>
+            <br />
+            <textarea name="about" id="about" rows="5"></textarea>
+        </div>
+        <div>
+            <button type="submit">Submit</button>
+        </div>
+    </form>
+    </body>
+</html>
