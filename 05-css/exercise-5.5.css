@@ -1,0 +1,34 @@
+button {
+    border: 1px solid;
+    padding: 10px;
+    font-size: 16px;
+    color: white;
+}
+button#btn_set {
+    background: green;
+    border-color: darkgreen;
+}
+button#btn_stop {
+    background: red;
+    border-color: darkred;
+}
+#robot_status {
+    margin-top: 20px;
+    border: 1px solid black;
+    padding: 10px 20px;
+}
+#robot_status #moving,
+#robot_status #stopped {
+    display: none;
+}
+#robot_status div {
+    font-weight:bold;
+}
+#robot_status.moving #moving {
+    display: block;
+    color: darkgreen;
+}
+#robot_status.stopped #stopped {
+    display: block;
+    color: darkred;
+}
