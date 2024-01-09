@@ -1,0 +1,48 @@
+html, body {
+    margin: 0 !important;
+    padding: 0 !important;
+}
+
+/* container */
+#container {
+    height: 100vh !important;
+}
+
+/* header */
+#header {
+    height: 100px;
+    background: darkblue;
+}
+#header h1 {
+    text-align:center;
+    color: white;
+}
+
+/* main content */
+.content {
+    height: calc(100vh - 300px);
+}
+
+/* sidebar */
+#sidebar {
+    float: left;
+    width: 30%;
+    background: #ddd;
+    border-right: 1px solid black;
+    box-sizing: border-box;
+}
+
+/* content */
+#main {
+    float: left;
+    width: 70%;
+}
+
+/* footer */
+#footer {
+    clear:both;
+    height:200px;
+    background-color: #aaa;
+    border-top: 1px solid black;
+    box-sizing: border-box;
+}
