@@ -13,6 +13,31 @@
             // arr2
             const arr2 = new Array('abc', 'd', 'efg', 'hijhk')
             console.log(arr2)
+            const arr = ['Robot', 'ROS', 'Navigation', 'SLAM']
+
+            console.log('--- For in ---')
+            for (let index in arr) {
+                console.log(`value at ${index} is ${arr[index]}`)
+            }
+
+            console.log('--- While ---')
+            // arr.length returns the number of elements inside the array
+            let i
+            while (i < arr.length) {
+                console.log(`value is ${arr[i]}`)
+                i++
+            }
+
+            console.log('--- For of ---')
+            for (let value of arr) {
+                console.log(`value is ${value}`)
+            }
+
+            console.log('--- .forEach ---')
+            const forEachCallback = (value, index, arrRef) => {
+                console.log(`value at ${index} is ${arr[index]}`)
+            }
+            arr.forEach(forEachCallback)
         </script>
     </body>
 </html>
