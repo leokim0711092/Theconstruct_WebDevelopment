@@ -38,6 +38,32 @@
                 console.log(`value at ${index} is ${arr[index]}`)
             }
             arr.forEach(forEachCallback)
+            // original array
+            const arr3 = ['Robot', 'ROS', 'Navigation', 'SLAM']
+
+            // push to the beginning
+            console.log(arr3)
+            const ret_unshift = arr3.unshift('The Construct')
+            // It returns the new length of the array
+            console.log(ret_unshift)
+
+            // push to the end
+            const ret_push = arr.push('Rocks!')
+            console.log(arr3)
+            // It returns the new length of the array
+            console.log(ret_push)
+
+            // remove from the beginning
+            const ret_shift = arr3.shift()
+            console.log(arr3)
+            // It returns the removed element
+            console.log(ret_shift)
+
+            // remove from the end
+            const ret_pop = arr3.pop()
+            console.log(arr3)
+            // It returns the removed element
+            console.log(ret_pop)
         </script>
     </body>
 </html>
