@@ -77,13 +77,34 @@
             arr4.pop()
             console.log(arr6)
 
-            //
+            //find and filter
             const arr8 = [1, 2, 3, 4, 5]
             const callbackFn = (element) => {
                 return element % 2 != 0
             }
             const oddValues = arr8.filter(callbackFn)
             console.log(oddValues)
+
+            //reduce
+            const arr9 = [34, 54, 123, -98, 0, 75, -86]
+            const callbackFn_1 = (acc, currentValue) => {
+                return acc + currentValue
+            }
+            const mean = arr.reduce(callbackFn_1) / arr.length
+            console.log(mean)
+
+            //map
+            const arr10 = [
+            {price: 5000, key: 'Turtlebot 3'},
+            {price: 4500, key: 'ROSBot'},
+            {price: 25000, key: 'UR5'},
+            {price: 40000, key: 'KUKA'},
+            ]
+            const mapFn = (element) => {
+                return element.price
+            }   
+            const prices = arr10.map(mapFn)
+            console.log(prices)
 
         </script>
     </body>
