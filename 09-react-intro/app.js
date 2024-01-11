@@ -7,8 +7,13 @@ let ros = null
 class AppComponent extends React.Component {
     constructor(props) {
         super(props)
+        this.state = {
+            connected: false,
+            robotState: '-',
+        }
     }
     name = 'React.js component'
+
     robotState = 'Stopped'
     connectToRosbridge = () => {
         try {
@@ -19,15 +24,20 @@ class AppComponent extends React.Component {
             console.log(ex)
             //
         }
-        ros.on('connection', function () {
+        ros.on('connection', () => {
             console.log('Connected to websocket server.')
+            this.setState({ connected: true })
         })
-        ros.on('error', function (error) {
+        ros.on('error', (error) => {
             console.log('Error connecting to websocket server: ', error)
         })
-        ros.on('close', function () {
+        ros.on('close', () => {
             console.log('Connection to websocket server closed.')
+            this.setState({ connected: false })
         })
+    }
+    disconnectRosbridge = () => {
+        ros.close()
     }
     robotCircles = () => {
         let topic = new ROSLIB.Topic({
@@ -40,7 +50,9 @@ class AppComponent extends React.Component {
             angular: { z: 0.5 },
         })
         topic.publish(msg)
-        this.robotState = 'running in circles...'
+        this.setState({
+            robotState: 'running in circles...'
+        })
     }
     robotStop = () => {
         let topic = new ROSLIB.Topic({
@@ -53,9 +65,10 @@ class AppComponent extends React.Component {
             angular: { z: 0 },
         })
         topic.publish(msg)
-        this.robotState = 'Stopped'
+        this.setState({
+            robotState: 'stopped'
+        })
     }
-
     render() {
         return (
             <div>
@@ -66,17 +79,18 @@ class AppComponent extends React.Component {
                 <div>
                     <label>Enter your rosbridge address</label>
                     <br />
-                    <input type="text" id="rosbridge_address" />
+                    <input disabled={this.state.connected} type="text" id="rosbridge_address" />
                     <br />
-                    <button onClick={this.connectToRosbridge}>Connect</button>
+                    {!this.state.connected && <button onClick={this.connectToRosbridge}>Connect</button>}
+                    {this.state.connected && <button onClick={this.disconnectRosbridge}>Disconnect</button>}
                 </div>
 
                 <div>
                     <h3>Robot actions</h3>
-                    <p>Robot is {this.robotState}</p>
-                    <button onClick={this.robotCircles}>Run in circles</button>
+                    <p>Robot is {this.state.robotState}</p>
+                    <button disabled={!this.state.connected} onClick={this.robotCircles}>Run in circles</button>
                     <br />
-                    <button onClick={this.robotStop}>Stop</button>
+                    <button disabled={!this.state.connected} onClick={this.robotStop}>Stop</button>
                 </div>
             </div>
         )
