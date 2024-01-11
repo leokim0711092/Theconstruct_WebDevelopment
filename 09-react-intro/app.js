@@ -42,6 +42,19 @@ class AppComponent extends React.Component {
         topic.publish(msg)
         this.robotState = 'running in circles...'
     }
+    robotStop = () => {
+        let topic = new ROSLIB.Topic({
+            ros: ros,
+            name: '/cmd_vel',
+            messageType: 'geometry_msgs/Twist'
+        })
+        let msg = new ROSLIB.Message({
+            linear: { x: 0 },
+            angular: { z: 0 },
+        })
+        topic.publish(msg)
+        this.robotState = 'Stopped'
+    }
 
     render() {
         return (
@@ -63,6 +76,7 @@ class AppComponent extends React.Component {
                     <p>Robot is {this.robotState}</p>
                     <button onClick={this.robotCircles}>Run in circles</button>
                     <br />
+                    <button onClick={this.robotStop}>Stop</button>
                 </div>
             </div>
         )
