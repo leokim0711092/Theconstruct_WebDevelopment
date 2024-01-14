@@ -7,13 +7,8 @@ let ros = null
 class AppComponent extends React.Component {
     constructor(props) {
         super(props)
-        this.state = {
-            connected: false,
-            robotState: '-',
-        }
     }
     name = 'React.js component'
-
     robotState = 'Stopped'
     connectToRosbridge = () => {
         try {
@@ -24,31 +19,43 @@ class AppComponent extends React.Component {
             console.log(ex)
             //
         }
-        ros.on('connection', () => {
+        ros.on('connection', function () {
             console.log('Connected to websocket server.')
-            this.setState({ connected: true })
         })
-        ros.on('error', (error) => {
+        ros.on('error', function (error) {
             console.log('Error connecting to websocket server: ', error)
         })
-        ros.on('close', () => {
+        ros.on('close', function () {
             console.log('Connection to websocket server closed.')
-            this.setState({ connected: false })
         })
-    }
-    disconnectRosbridge = () => {
-        ros.close()
     }
     robotCircles = () => {
-        this.setState({
-            robotState: 'running in circles...'
+        let topic = new ROSLIB.Topic({
+            ros: ros,
+            name: '/cmd_vel',
+            messageType: 'geometry_msgs/Twist'
         })
+        let msg = new ROSLIB.Message({
+            linear: { x: 0.5 },
+            angular: { z: 0.5 },
+        })
+        topic.publish(msg)
+        this.robotState = 'running in circles...'
     }
     robotStop = () => {
-        this.setState({
-            robotState: 'stopped'
+        let topic = new ROSLIB.Topic({
+            ros: ros,
+            name: '/cmd_vel',
+            messageType: 'geometry_msgs/Twist'
         })
+        let msg = new ROSLIB.Message({
+            linear: { x: 0 },
+            angular: { z: 0 },
+        })
+        topic.publish(msg)
+        this.robotState = 'Stopped'
     }
+
     render() {
         return (
             <div>
@@ -59,40 +66,17 @@ class AppComponent extends React.Component {
                 <div>
                     <label>Enter your rosbridge address</label>
                     <br />
-                    <input
-                        disabled={this.state.connected}
-                        type="text"
-                        id="rosbridge_address"
-                        defaultValue="wss://i-061b850fec55eabae.robotigniteacademy.com/3a49879a-bf56-45d7-a4a8-dca1ec7cc8da/rosbridge/" />
+                    <input type="text" id="rosbridge_address" />
                     <br />
-                    {!this.state.connected && <button onClick={this.connectToRosbridge}>Connect</button>}
-                    {this.state.connected && <button onClick={this.disconnectRosbridge}>Disconnect</button>}
+                    <button onClick={this.connectToRosbridge}>Connect</button>
                 </div>
 
                 <div>
                     <h3>Robot actions</h3>
-                    <p>Robot is {this.state.robotState}</p>
-                    <BtnPublisher
-                        clicked={this.robotCircles}
-                        ros={ros}
-                        topic_name='/cmd_vel'
-                        topic_type='geometry_msgs/Twist'
-                        topic_message={{ linear: { x: 0.5 }, angular: { z: 0.5 } }}
-                        disabled={!this.state.connected}
-                    >
-                        Run in circles
-                    </BtnPublisher>
+                    <p>Robot is {this.robotState}</p>
+                    <button onClick={this.robotCircles}>Run in circles</button>
                     <br />
-                    <BtnPublisher
-                        clicked={this.robotStop}
-                        ros={ros}
-                        topic_name='/cmd_vel'
-                        topic_type='geometry_msgs/Twist'
-                        topic_message={{ linear: { x: 0 }, angular: { z: 0 } }}
-                        disabled={!this.state.connected}
-                    >
-                        Stop!
-                    </BtnPublisher>
+                    <button onClick={this.robotStop}>Stop</button>
                 </div>
             </div>
         )
